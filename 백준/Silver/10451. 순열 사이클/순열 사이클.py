@@ -1,27 +1,18 @@
-def count_cycles_stack(n, m):
-    adj = [[] for _ in range(n + 1)]
-    for i in range(1, n + 1):
-        adj[i].append(m[i - 1])
-
-    visited = [False] * (n + 1)
+def find_cycles(permutation):
+    visited = [False] * (len(permutation) + 1)
     count = 0
 
-    for i in range(1, n + 1):
+    for i in range(1, len(permutation)):
         if not visited[i]:
-            stack = [i]
-            while stack:
-                node = stack.pop()
-                if not visited[node]:
-                    visited[node] = True
-                    for neighbor in adj[node]:
-                        if not visited[neighbor]:
-                            stack.append(neighbor)
             count += 1
-
+            current = i
+            while not visited[current]:
+                visited[current] = True
+                current = permutation[current]
     return count
 
-t = int(input())
-for _ in range(t):
-    n = int(input())
-    m = list(map(int, input().split()))
-    print(count_cycles_stack(n, m))
+T = int(input())
+for _ in range(T):
+    N = int(input())
+    perm = [0] + list(map(int, input().split()))
+    print(find_cycles(perm))
